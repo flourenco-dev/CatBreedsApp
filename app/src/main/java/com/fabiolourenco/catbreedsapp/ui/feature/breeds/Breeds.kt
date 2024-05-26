@@ -1,35 +1,31 @@
 package com.fabiolourenco.catbreedsapp.ui.feature.breeds
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
-import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
-import com.fabiolourenco.catbreedsapp.common.utils.UiState
+import com.fabiolourenco.catbreedsapp.R
 
 @Composable
 fun Breeds(viewModel: BreedsViewModel = hiltViewModel()) {
-    val breedsState = viewModel.breedsStateObservable.collectAsState().value
-    if (breedsState is UiState.Initial) {
+    val breedsResult = viewModel.getBreedsResultObservable.collectAsState().value
+    val searchQuery = remember { mutableStateOf(TextFieldValue("")) }
+    if (breedsResult is GetBreedsResult.Initial) {
         viewModel.fetchBreeds()
     }
 
@@ -37,57 +33,78 @@ fun Breeds(viewModel: BreedsViewModel = hiltViewModel()) {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        when (breedsState) {
-            is UiState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+        Column {
+            BreedSearchBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .padding(8.dp),
+                searchQuery = searchQuery.value,
+                onSearchQueryChange = {
+                        query ->
+                    searchQuery.value = query
+                },
+                onExecuteSearch = {
+                    if (searchQuery.value.text.isEmpty()) {
+                        viewModel.fetchBreeds()
+                    } else {
+                        viewModel.searchBreeds(searchQuery.value.text)
+                    }
+                },
+                onClearClicked = {
+                    viewModel.fetchBreeds()
                 }
-            }
-            is UiState.Success -> {
-                LazyColumn {
-                    items(breedsState.breeds) { breed ->
-                        CatBreedItem(breed)
+            )
+            when (breedsResult) {
+                is GetBreedsResult.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
                     }
                 }
-            }
-            is UiState.Error -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = breedsState.message,
-                        color = MaterialTheme.colorScheme.error
-                    )
+                is GetBreedsResult.Success -> {
+                    BreedsGrid(breeds = breedsResult.breeds)
                 }
+                is GetBreedsResult.Error -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.breeds_error_message),
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                }
+                is GetBreedsResult.Empty -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.breeds_empty_message),
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                }
+                is GetBreedsResult.EmptySearchResult -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = stringResource(
+                                R.string.breeds_empty_search_result_message,
+                                breedsResult.breedName
+                            ),
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                }
+                else -> {}
             }
-            else -> {}
-        }
-    }
-}
-
-@Composable
-fun CatBreedItem(breed: CatBreed) {
-    Row(modifier = Modifier.padding(16.dp)) {
-        Image(
-            painter = rememberAsyncImagePainter(breed.imageUrl),
-            contentDescription = null,
-            modifier = Modifier.size(64.dp),
-            contentScale = ContentScale.Crop
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            Text(
-                text = breed.name,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = breed.origin,
-                style = MaterialTheme.typography.bodySmall
-            )
         }
     }
 }

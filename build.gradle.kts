@@ -24,6 +24,7 @@ buildscript {
         set("appCompatVersion", "1.6.1")
         set("material3Version", "1.2.1")
         set("koilVersion", "2.2.2")
+        set("systemUiControllerVersion", "0.28.0")
 
         // Test dependencies
         set("junitVersion", "4.13.2")

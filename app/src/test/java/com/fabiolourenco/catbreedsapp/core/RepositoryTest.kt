@@ -27,7 +27,7 @@ class RepositoryTest {
 
     // Tests follow AAA approach -> Arrange, Act and Assert
     @Test
-    fun getCatBreeds_apiReturnsTwoBreedModels_twoUiBreedsAreReturned() = runBlocking {
+    fun getBreeds_apiReturnsTwoBreedModels_twoUiBreedsAreReturned() = runBlocking {
         val breedModels = listOf(
             BreedModel(
                 id = "1",
@@ -60,9 +60,50 @@ class RepositoryTest {
         )
         given(apiHelper.getBreeds()).willReturn(breedModels)
 
-        val result = repository.getCatBreeds()
+        val result = repository.getBreeds()
 
         Mockito.verify(apiHelper).getBreeds()
+        Assert.assertEquals(catBreeds, result)
+    }
+
+    @Test
+    fun searchBreedsByName_apiReturnsTwoBreedModels_twoUiBreedsAreReturned() = runBlocking {
+        val query = "Breed"
+        val breedModels = listOf(
+            BreedModel(
+                id = "1",
+                name = "Breed1",
+                origin = "Origin1",
+                temperament = "Temperament1",
+                description = "Description1",
+                image = BreedImageModel(url = "ImageUrl1")
+            ),
+            BreedModel(
+                id = "2",
+                name = "Breed2",
+                origin = "Origin2",
+                temperament = "Temperament2",
+                description = "Description2",
+                image = BreedImageModel(url = "ImageUrl2")
+            )
+        )
+        val catBreeds = listOf(
+            CatBreed(
+                name = "Breed1",
+                origin = "Origin1",
+                imageUrl = "ImageUrl1"
+            ),
+            CatBreed(
+                name = "Breed2",
+                origin = "Origin2",
+                imageUrl = "ImageUrl2"
+            )
+        )
+        given(apiHelper.getBreedsByName(breedName = query)).willReturn(breedModels)
+
+        val result = repository.searchBreedsByName(breedName = query)
+
+        Mockito.verify(apiHelper).getBreedsByName(breedName = query)
         Assert.assertEquals(catBreeds, result)
     }
 }

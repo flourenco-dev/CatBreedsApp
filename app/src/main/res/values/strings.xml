@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Cat Breeds App</string>
+    <string name="breeds_empty_message">No cat breeds found!</string>
+    <string name="breeds_empty_search_result_message">No cat breeds found for name %1$s!</string>
+    <string name="breeds_error_message">A problem occurred while getting breeds!</string>
+    <string name="breeds_search_hint">Search for a cat breed</string>
 </resources>

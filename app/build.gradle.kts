@@ -87,6 +87,9 @@ dependencies {
     // Logging
     implementation("com.jakewharton.timber:timber:${rootProject.ext["timberVersion"]}")
 
+    // Status Bar
+    implementation("com.google.accompanist:accompanist-systemuicontroller:${rootProject.ext["systemUiControllerVersion"]}")
+
     // Unit Tests
     testImplementation("junit:junit:${rootProject.ext["junitVersion"]}")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.ext["coroutinesTestVersion"]}")

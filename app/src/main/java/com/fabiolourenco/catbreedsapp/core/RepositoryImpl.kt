@@ -9,7 +9,7 @@ internal class RepositoryImpl @Inject constructor(
     private val apiHelper: ApiHelper
 ) : Repository {
 
-    override suspend fun getCatBreeds(): List<CatBreed> = apiHelper.getBreeds().map {
+    override suspend fun getBreeds(): List<CatBreed> = apiHelper.getBreeds().map {
         it.toCatBreed()
     }
 
@@ -18,4 +18,9 @@ internal class RepositoryImpl @Inject constructor(
         origin = origin,
         imageUrl = image?.url
     )
+
+    override suspend fun searchBreedsByName(breedName: String): List<CatBreed> =
+        apiHelper.getBreedsByName(breedName).map {
+            it.toCatBreed()
+        }
 }

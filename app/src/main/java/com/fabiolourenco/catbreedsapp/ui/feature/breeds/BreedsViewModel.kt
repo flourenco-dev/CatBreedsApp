@@ -2,7 +2,6 @@ package com.fabiolourenco.catbreedsapp.ui.feature.breeds
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fabiolourenco.catbreedsapp.common.utils.UiState
 import com.fabiolourenco.catbreedsapp.core.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,19 +15,44 @@ class BreedsViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val breedsStateFlow = MutableStateFlow<UiState>(UiState.Initial)
-    val breedsStateObservable: StateFlow<UiState> = breedsStateFlow
+    private val getBreedsResultFlow = MutableStateFlow<GetBreedsResult>(GetBreedsResult.Initial)
+    val getBreedsResultObservable: StateFlow<GetBreedsResult> = getBreedsResultFlow
 
     fun fetchBreeds() {
         viewModelScope.launch {
-            breedsStateFlow.value = UiState.Loading
+            getBreedsResultFlow.value = GetBreedsResult.Loading
             try {
-                val breeds = repository.getCatBreeds()
-                breedsStateFlow.value = UiState.Success(breeds)
+                val breeds = repository.getBreeds()
+                if (breeds.isEmpty()) {
+                    getBreedsResultFlow.value = GetBreedsResult.Empty
+                } else {
+                    getBreedsResultFlow.value = GetBreedsResult.Success(breeds)
+                }
             } catch (error: Exception) {
                 Timber.e(error)
-                breedsStateFlow.value = UiState.Error("Error while fetching breeds")
+                getBreedsResultFlow.value = GetBreedsResult.Error("Error while fetching breeds")
             }
         }
+    }
+
+    fun searchBreeds(breedName: String) {
+        viewModelScope.launch {
+            getBreedsResultFlow.value = GetBreedsResult.Loading
+            try {
+                val breeds = repository.searchBreedsByName(breedName)
+                if (breeds.isEmpty()) {
+                    getBreedsResultFlow.value = GetBreedsResult.EmptySearchResult(breedName)
+                } else {
+                    getBreedsResultFlow.value = GetBreedsResult.Success(breeds)
+                }
+            } catch (error: Exception) {
+                Timber.e(error)
+                getBreedsResultFlow.value = GetBreedsResult.Error("Error while fetching breeds")
+            }
+        }
+    }
+
+    fun resetGetBreedsResult() {
+        getBreedsResultFlow.value = GetBreedsResult.Initial
     }
 }
