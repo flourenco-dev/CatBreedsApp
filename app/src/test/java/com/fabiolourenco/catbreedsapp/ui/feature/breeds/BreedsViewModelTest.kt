@@ -45,18 +45,31 @@ class BreedsViewModelTest {
         Dispatchers.resetMain()
     }
 
+    // fetchBreeds
+    // repositoryReturnsListOfBreeds
+    // successIsReturned
     @Test
-    fun fetchBreeds_repositoryReturnsListOfBreeds_successIsReturned() = runTest {
+    fun fetchBreeds1() = runTest {
         val catBreeds = listOf(
             CatBreed(
+                id = "1",
                 name = "Breed1",
                 origin = "Origin1",
-                imageUrl = "ImageUrl1"
+                temperament = "Temperament1",
+                description = "Description1",
+                imageUrl = "ImageUrl1",
+                lifeSpan = 12,
+                isFavorite = true
             ),
             CatBreed(
+                id = "2",
                 name = "Breed2",
                 origin = "Origin2",
-                imageUrl = "ImageUrl2"
+                temperament = "Temperament2",
+                description = "Description2",
+                imageUrl = "ImageUrl2",
+                lifeSpan = 12,
+                isFavorite = false
             )
         )
         given(repository.getBreeds()).willReturn(catBreeds)
@@ -69,8 +82,11 @@ class BreedsViewModelTest {
         Assert.assertEquals(catBreeds, (result as GetBreedsResult.Success).breeds)
     }
 
+    // fetchBreeds
+    // repositoryReturnsEmptyList
+    // emptyIsReturned
     @Test
-    fun fetchBreeds_repositoryReturnsEmptyList_emptyIsReturned() = runTest {
+    fun fetchBreeds2() = runTest {
         val catBreeds = emptyList<CatBreed>()
         given(repository.getBreeds()).willReturn(catBreeds)
 
@@ -81,8 +97,11 @@ class BreedsViewModelTest {
         Assert.assertTrue(result is GetBreedsResult.Empty)
     }
 
+    // fetchBreeds
+    // repositoryThrowsException
+    // errorIsReturned
     @Test
-    fun fetchBreeds_repositoryThrowsException_errorIsReturned() = runTest {
+    fun fetchBreeds3() = runTest {
         given(repository.getBreeds()).willThrow(MockitoException(""))
 
         viewModel.fetchBreeds()
@@ -92,19 +111,32 @@ class BreedsViewModelTest {
         Assert.assertTrue(result is GetBreedsResult.Error)
     }
 
+    // searchBreeds
+    // repositoryReturnsListOfBreeds
+    // successIsReturned
     @Test
-    fun searchBreeds_repositoryReturnsListOfBreeds_successIsReturned() = runTest {
+    fun searchBreeds1() = runTest {
         val query = "Breed"
         val catBreeds = listOf(
             CatBreed(
+                id = "1",
                 name = "Breed1",
                 origin = "Origin1",
-                imageUrl = "ImageUrl1"
+                temperament = "Temperament1",
+                description = "Description1",
+                imageUrl = "ImageUrl1",
+                lifeSpan = 12,
+                isFavorite = true
             ),
             CatBreed(
+                id = "2",
                 name = "Breed2",
                 origin = "Origin2",
-                imageUrl = "ImageUrl2"
+                temperament = "Temperament2",
+                description = "Description2",
+                imageUrl = "ImageUrl2",
+                lifeSpan = 12,
+                isFavorite = false
             )
         )
         given(repository.searchBreedsByName(breedName = query)).willReturn(catBreeds)
@@ -117,8 +149,11 @@ class BreedsViewModelTest {
         Assert.assertEquals(catBreeds, (result as GetBreedsResult.Success).breeds)
     }
 
+    // searchBreeds
+    // repositoryReturnsEmptyList
+    // emptySearchResultIsReturned
     @Test
-    fun searchBreeds_repositoryReturnsEmptyList_emptySearchResultIsReturned() = runTest {
+    fun searchBreeds2() = runTest {
         val query = "Breed"
         val catBreeds = emptyList<CatBreed>()
         given(repository.searchBreedsByName(breedName = query)).willReturn(catBreeds)
@@ -131,8 +166,11 @@ class BreedsViewModelTest {
         Assert.assertEquals(query, (result as GetBreedsResult.EmptySearchResult).breedName)
     }
 
+    // searchBreeds
+    // repositoryThrowsException
+    // errorIsReturned
     @Test
-    fun searchBreeds_repositoryThrowsException_errorIsReturned() = runTest {
+    fun searchBreeds3() = runTest {
         val query = "Breed"
         given(repository.searchBreedsByName(breedName = query)).willThrow(MockitoException(""))
 
@@ -141,5 +179,47 @@ class BreedsViewModelTest {
         Mockito.verify(repository).searchBreedsByName(breedName = query)
         val result = viewModel.getBreedsResultObservable.first()
         Assert.assertTrue(result is GetBreedsResult.Error)
+    }
+
+    // updateFavoriteBreed
+    // breedIsNotFavorite
+    // repositoryAddFavoriteBreedCalled
+    @Test
+    fun updateFavoriteBreed1() = runTest {
+        val catBreed = CatBreed(
+            id = "1",
+            name = "Breed1",
+            origin = "Origin1",
+            temperament = "Temperament1",
+            description = "Description1",
+            imageUrl = "ImageUrl1",
+            lifeSpan = 12,
+            isFavorite = false
+        )
+
+        viewModel.updateFavoriteBreed(breed = catBreed)
+
+        Mockito.verify(repository).addFavoriteBreed(breed = catBreed)
+    }
+
+    // updateFavoriteBreed
+    // breedIsFavorite
+    // repositoryRemoveFavoriteBreedCalled
+    @Test
+    fun updateFavoriteBreed2() = runTest {
+        val catBreed = CatBreed(
+            id = "1",
+            name = "Breed1",
+            origin = "Origin1",
+            temperament = "Temperament1",
+            description = "Description1",
+            imageUrl = "ImageUrl1",
+            lifeSpan = 12,
+            isFavorite = true
+        )
+
+        viewModel.updateFavoriteBreed(breed = catBreed)
+
+        Mockito.verify(repository).removeFavoriteBreed(breed = catBreed)
     }
 }

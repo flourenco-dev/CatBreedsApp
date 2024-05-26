@@ -19,3 +19,15 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Room
+-keepclassmembers class androidx.room.RoomDatabase {
+    ** ROOM_*;
+}
+
+# Hilt
+-keepclassmembers,allowobfuscation interface dagger.hilt.internal.GeneratedComponent {
+    dagger.hilt.internal.GeneratedComponentManager<?> hilt;
+}
+-keep class dagger.hilt.internal.** { *; }
+-keep class * extends dagger.hilt.internal.** { *; }

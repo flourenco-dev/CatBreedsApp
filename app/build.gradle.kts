@@ -70,6 +70,7 @@ dependencies {
     implementation("androidx.compose.ui:ui:${rootProject.ext["composeVersion"]}")
     implementation("androidx.compose.material3:material3:${rootProject.extra["material3Version"]}")
     implementation("androidx.compose.ui:ui-tooling-preview:${rootProject.ext["composeVersion"]}")
+    implementation("androidx.constraintlayout:constraintlayout-compose:${rootProject.ext["constraintLayoutVersion"]}")
 
     // Network
     implementation("com.squareup.retrofit2:retrofit:${rootProject.ext["retrofitVersion"]}")
@@ -89,6 +90,11 @@ dependencies {
 
     // Status Bar
     implementation("com.google.accompanist:accompanist-systemuicontroller:${rootProject.ext["systemUiControllerVersion"]}")
+
+    // Database
+    implementation("androidx.room:room-runtime:${rootProject.ext["roomVersion"]}")
+    kapt("androidx.room:room-compiler:${rootProject.ext["roomVersion"]}")
+    implementation("androidx.room:room-ktx:${rootProject.ext["roomVersion"]}")
 
     // Unit Tests
     testImplementation("junit:junit:${rootProject.ext["junitVersion"]}")

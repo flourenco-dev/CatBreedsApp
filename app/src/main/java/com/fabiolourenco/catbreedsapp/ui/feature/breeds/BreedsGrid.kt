@@ -9,13 +9,21 @@ import androidx.compose.ui.unit.dp
 import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
 
 @Composable
-fun BreedsGrid(breeds: List<CatBreed>) {
+fun BreedsGrid(
+    breeds: List<CatBreed>,
+    onFavoriteClick: (CatBreed) -> Unit
+) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
         contentPadding = PaddingValues(8.dp)
     ) {
         items(breeds) { breed ->
-            BreedCard(breed)
+            BreedCard(
+                breed = breed,
+                onFavoriteClick = {
+                    onFavoriteClick(it)
+                }
+            )
         }
     }
 }

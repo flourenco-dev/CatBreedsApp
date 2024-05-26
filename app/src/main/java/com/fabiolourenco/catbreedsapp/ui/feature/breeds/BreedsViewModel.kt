@@ -2,6 +2,7 @@ package com.fabiolourenco.catbreedsapp.ui.feature.breeds
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
 import com.fabiolourenco.catbreedsapp.core.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -54,5 +55,15 @@ class BreedsViewModel @Inject constructor(
 
     fun resetGetBreedsResult() {
         getBreedsResultFlow.value = GetBreedsResult.Initial
+    }
+
+    fun updateFavoriteBreed(breed: CatBreed) {
+        viewModelScope.launch {
+            if (breed.isFavorite) {
+                repository.removeFavoriteBreed(breed)
+            } else {
+                repository.addFavoriteBreed(breed)
+            }
+        }
     }
 }

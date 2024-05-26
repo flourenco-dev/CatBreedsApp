@@ -23,8 +23,10 @@ buildscript {
         set("coreKtxVersion", "1.13.1")
         set("appCompatVersion", "1.6.1")
         set("material3Version", "1.2.1")
+        set("constraintLayoutVersion", "1.0.1")
         set("koilVersion", "2.2.2")
         set("systemUiControllerVersion", "0.28.0")
+        set("roomVersion", "2.6.1")
 
         // Test dependencies
         set("junitVersion", "4.13.2")

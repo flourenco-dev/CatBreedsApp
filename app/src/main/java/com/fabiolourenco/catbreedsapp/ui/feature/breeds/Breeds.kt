@@ -65,7 +65,12 @@ fun Breeds(viewModel: BreedsViewModel = hiltViewModel()) {
                     }
                 }
                 is GetBreedsResult.Success -> {
-                    BreedsGrid(breeds = breedsResult.breeds)
+                    BreedsGrid(
+                        breeds = breedsResult.breeds,
+                        onFavoriteClick = {
+                            viewModel.updateFavoriteBreed(breed = it)
+                        }
+                    )
                 }
                 is GetBreedsResult.Error -> {
                     Box(
