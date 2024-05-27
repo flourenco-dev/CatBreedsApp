@@ -1,4 +1,4 @@
-package com.fabiolourenco.catbreedsapp.ui.feature.breeds
+package com.fabiolourenco.catbreedsapp.common.ui.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells

@@ -1,4 +1,4 @@
-package com.fabiolourenco.catbreedsapp.ui.feature.breeds
+package com.fabiolourenco.catbreedsapp.common.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

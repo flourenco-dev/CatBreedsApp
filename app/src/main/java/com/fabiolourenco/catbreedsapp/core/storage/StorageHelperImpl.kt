@@ -3,6 +3,7 @@ package com.fabiolourenco.catbreedsapp.core.storage
 import com.fabiolourenco.catbreedsapp.core.storage.database.dao.FavoriteBreedsDao
 import com.fabiolourenco.catbreedsapp.core.storage.database.entity.FavoriteBreedEntity
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 internal class StorageHelperImpl @Inject constructor(
     private val favoriteBreedsDao: FavoriteBreedsDao
@@ -10,6 +11,9 @@ internal class StorageHelperImpl @Inject constructor(
 
     override suspend fun getAllFavoriteBreeds(): List<FavoriteBreedEntity> =
         favoriteBreedsDao.getAllFavoriteBreeds()
+
+    override fun getAllFavoriteBreedsObservable(): Flow<List<FavoriteBreedEntity>> =
+        favoriteBreedsDao.getAllFavoriteBreedsObservable()
 
     override suspend fun addFavoriteBreed(breed: FavoriteBreedEntity) =
         favoriteBreedsDao.insertFavoriteBreed(breed)

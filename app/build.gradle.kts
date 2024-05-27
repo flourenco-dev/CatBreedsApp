@@ -91,6 +91,9 @@ dependencies {
     // Status Bar
     implementation("com.google.accompanist:accompanist-systemuicontroller:${rootProject.ext["systemUiControllerVersion"]}")
 
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:${rootProject.ext["navigationVersion"]}")
+
     // Database
     implementation("androidx.room:room-runtime:${rootProject.ext["roomVersion"]}")
     kapt("androidx.room:room-compiler:${rootProject.ext["roomVersion"]}")

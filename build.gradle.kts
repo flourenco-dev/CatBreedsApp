@@ -27,6 +27,7 @@ buildscript {
         set("koilVersion", "2.2.2")
         set("systemUiControllerVersion", "0.28.0")
         set("roomVersion", "2.6.1")
+        set("navigationVersion", "2.7.7")
 
         // Test dependencies
         set("junitVersion", "4.13.2")

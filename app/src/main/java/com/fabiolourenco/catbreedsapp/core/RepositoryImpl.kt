@@ -6,6 +6,8 @@ import com.fabiolourenco.catbreedsapp.core.network.model.BreedModel
 import com.fabiolourenco.catbreedsapp.core.storage.StorageHelper
 import com.fabiolourenco.catbreedsapp.core.storage.database.entity.FavoriteBreedEntity
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 internal class RepositoryImpl @Inject constructor(
     private val apiHelper: ApiHelper,
@@ -63,4 +65,22 @@ internal class RepositoryImpl @Inject constructor(
     override suspend fun removeFavoriteBreed(breed: CatBreed) {
         storageHelper.removeFavoriteBreed(breed.toFavoriteBreedEntity())
     }
+
+    override fun getFavoriteBreeds(): Flow<List<CatBreed>> =
+        storageHelper.getAllFavoriteBreedsObservable().map { favoriteBreedsList ->
+            favoriteBreedsList.map { favoriteBreed ->
+                favoriteBreed.toCatBreed()
+            }
+        }
+
+    private fun FavoriteBreedEntity.toCatBreed(): CatBreed = CatBreed(
+        id = id,
+        name = name,
+        origin = origin,
+        temperament = temperament,
+        description = description,
+        imageUrl = imageUrl,
+        lifeSpan = lifeSpan,
+        isFavorite = true
+    )
 }

@@ -1,5 +1,7 @@
 package com.fabiolourenco.catbreedsapp.core.network.model
 
+import com.google.gson.annotations.SerializedName
+
 data class BreedModel(
     val id: String,
     val name: String,
@@ -7,5 +9,5 @@ data class BreedModel(
     val temperament: String,
     val description: String,
     val image: BreedImageModel?,
-    val lifeSpan: String?
+    @SerializedName("life_span") val lifeSpan: String?
 )
