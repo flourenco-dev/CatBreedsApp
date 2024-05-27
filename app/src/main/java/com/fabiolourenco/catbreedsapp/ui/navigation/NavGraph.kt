@@ -24,6 +24,8 @@ import com.fabiolourenco.catbreedsapp.ui.feature.breeds.Breeds
 import com.fabiolourenco.catbreedsapp.ui.feature.breeds.BreedsViewModel
 import com.fabiolourenco.catbreedsapp.ui.feature.details.BreedDetails
 import com.fabiolourenco.catbreedsapp.ui.feature.favorites.Favorites
+import com.fabiolourenco.catbreedsapp.ui.feature.paginatedBreeds.PaginatedBreeds
+import com.fabiolourenco.catbreedsapp.ui.feature.paginatedBreeds.PaginatedBreedsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,6 +39,7 @@ fun NavGraph(
             val titleId = when (navBackStackEntry.value?.destination?.route) {
                 Route.Breeds.route -> Route.Breeds.titleId
                 Route.Favorites.route -> Route.Favorites.titleId
+                Route.PaginatedBreeds.route -> Route.PaginatedBreeds.titleId
                 else -> -1
             }
             if (titleId > -1) {
@@ -52,7 +55,8 @@ fun NavGraph(
             val currentRoute = navBackStackEntry.value?.destination?.route
             val items = listOf(
                 Route.Breeds,
-                Route.Favorites
+                Route.Favorites,
+                Route.PaginatedBreeds
             )
             if (currentRoute != Route.Details.route) {
                 NavigationBar {
@@ -124,6 +128,14 @@ fun NavGraph(
                 } else {
                     return@composable
                 }
+            }
+            composable(route = Route.PaginatedBreeds.route) {
+                val paginatedBreedsViewModel: PaginatedBreedsViewModel = hiltViewModel()
+                LaunchedEffect(Unit) {
+                }
+                PaginatedBreeds(
+                    viewModel = paginatedBreedsViewModel
+                )
             }
         }
     }

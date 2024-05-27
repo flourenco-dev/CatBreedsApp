@@ -7,6 +7,7 @@ import com.fabiolourenco.catbreedsapp.core.storage.StorageHelper
 import com.fabiolourenco.catbreedsapp.core.storage.database.entity.BreedEntity
 import com.fabiolourenco.catbreedsapp.core.storage.database.entity.FavoriteBreedEntity
 import javax.inject.Inject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -60,6 +61,9 @@ internal class RepositoryImpl @Inject constructor(
     )
 
     override suspend fun fetchBreeds() {
+        // To provide offline support the database was used as single source of truth, so all data
+        // is obtained from the database and then a request to update it is done
+
         // Get all remote breeds
         val remoteBreeds = apiHelper.getBreeds().map {
             it.toBreedEntity(
@@ -154,4 +158,13 @@ internal class RepositoryImpl @Inject constructor(
 
     override suspend fun getBreedById(breedId: String): CatBreed =
         storageHelper.getBreedById(breedId).toCatBreed()
+
+    override suspend fun getBreedsPage(page: Int, limit: Int): List<CatBreed> {
+        delay(5000)
+        return apiHelper.getBreedsPage(page, limit).map {
+            it.toCatBreed(
+                isFavorite = storageHelper.isFavoriteBreed(breedId = it.id)
+            )
+        }
+    }
 }

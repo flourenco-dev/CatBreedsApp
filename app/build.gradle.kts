@@ -99,6 +99,13 @@ dependencies {
     kapt("androidx.room:room-compiler:${rootProject.ext["roomVersion"]}")
     implementation("androidx.room:room-ktx:${rootProject.ext["roomVersion"]}")
 
+    // Paging
+    implementation("androidx.paging:paging-compose:${rootProject.ext["pagingVersion"]}")
+    implementation("androidx.paging:paging-runtime-ktx:${rootProject.ext["pagingVersion"]}")
+
+    // Swipe to Refresh
+    implementation("com.google.accompanist:accompanist-swiperefresh:${rootProject.ext["swipeRefreshVersion"]}")
+
     // Unit Tests
     testImplementation("junit:junit:${rootProject.ext["junitVersion"]}")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.ext["coroutinesTestVersion"]}")

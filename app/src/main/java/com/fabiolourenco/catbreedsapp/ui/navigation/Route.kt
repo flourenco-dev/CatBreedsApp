@@ -25,4 +25,9 @@ sealed class Route(
     ) {
         fun createRoute(breedId: String) = "details/$breedId"
     }
+    data object PaginatedBreeds : Route(
+        route = "paginatedBreeds",
+        titleId = R.string.route_paginated_breeds_title,
+        labelId = R.string.route_paginated_breeds_label
+    )
 }

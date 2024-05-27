@@ -28,6 +28,8 @@ buildscript {
         set("systemUiControllerVersion", "0.28.0")
         set("roomVersion", "2.6.1")
         set("navigationVersion", "2.7.7")
+        set("pagingVersion", "3.3.0")
+        set("swipeRefreshVersion", "0.28.0")
 
         // Test dependencies
         set("junitVersion", "4.13.2")

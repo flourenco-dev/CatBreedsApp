@@ -3,8 +3,10 @@
     <string name="breeds_empty_message">No cat breeds found!</string>
     <string name="route_breeds_title">Cat Breeds</string>
     <string name="route_favorites_title">Favorite Breeds</string>
+    <string name="route_paginated_breeds_title">Paginated Breeds</string>
     <string name="route_breeds_label">Breeds</string>
     <string name="route_favorites_label">Favorites</string>
+    <string name="route_paginated_breeds_label">Pages</string>
     <string name="breeds_empty_search_result_message">No cat breeds found for name %1$s!</string>
     <string name="breeds_error_search_result_message">A problem occurred while getting breeds for name %1$s!</string>
     <string name="breeds_error_message">A problem occurred while getting breeds!</string>
@@ -12,4 +14,6 @@
     <string name="breeds_search_hint">Search for a cat breed</string>
     <string name="favorites_empty_message">No cat breeds were made yet favorite!</string>
     <string name="favorites_life_span_text">The average life span of your favorites breeds is %1$s years!</string>
+    <string name="paging_breeds_initial_error_message">There was an error while loading the initial set of breeds!</string>
+    <string name="paging_breeds_page_error_message">There was an error while loading the next set of breeds!</string>
 </resources>

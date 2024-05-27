@@ -11,4 +11,10 @@ interface CatApi {
 
     @GET("breeds/search")
     suspend fun getBreedsByName(@Query("q") breedName: String): List<BreedModel>
+
+    @GET("breeds")
+    suspend fun getBreedsPage(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int
+    ): List<BreedModel>
 }
