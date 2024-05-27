@@ -18,8 +18,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,7 +33,6 @@ fun BreedCard(
     onFavoriteClick: (CatBreed) -> Unit,
     onClick: (CatBreed) -> Unit
 ) {
-    val isBreedFavorite = remember { mutableStateOf(breed.isFavorite) }
     Box(
         modifier = Modifier
             .padding(8.dp)
@@ -73,19 +70,16 @@ fun BreedCard(
                 )
                 IconButton(
                     onClick = {
-                        onFavoriteClick(
-                            breed.copy(isFavorite = isBreedFavorite.value)
-                        )
-                        isBreedFavorite.value = !isBreedFavorite.value
+                        onFavoriteClick(breed)
                     }
                 ) {
                     Icon(
-                        imageVector = if (isBreedFavorite.value) {
+                        imageVector = if (breed.isFavorite) {
                             Icons.Default.Favorite
                         } else {
                             Icons.Default.FavoriteBorder
                         },
-                        contentDescription = if (isBreedFavorite.value) {
+                        contentDescription = if (breed.isFavorite) {
                             "Unfavorite button"
                         } else {
                             "Favorite button"

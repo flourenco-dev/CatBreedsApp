@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoriteBreedsDao {
+
     @Query("SELECT * FROM FavoriteBreedEntity")
     suspend fun getAllFavoriteBreeds(): List<FavoriteBreedEntity>
 

@@ -6,5 +6,4 @@ import com.fabiolourenco.catbreedsapp.core.network.model.BreedModel
 interface ApiHelper {
     suspend fun getBreeds(): List<BreedModel>
     suspend fun getBreedsByName(breedName: String): List<BreedModel>
-    suspend fun getBreedsById(breedId: String): BreedModel
 }

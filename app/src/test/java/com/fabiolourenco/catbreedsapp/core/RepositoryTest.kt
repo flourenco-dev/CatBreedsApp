@@ -5,7 +5,7 @@ import com.fabiolourenco.catbreedsapp.core.network.ApiHelper
 import com.fabiolourenco.catbreedsapp.core.network.model.BreedImageModel
 import com.fabiolourenco.catbreedsapp.core.network.model.BreedModel
 import com.fabiolourenco.catbreedsapp.core.storage.StorageHelper
-import com.fabiolourenco.catbreedsapp.core.storage.database.entity.FavoriteBreedEntity
+import com.fabiolourenco.catbreedsapp.core.storage.database.entity.FavoriteBreedEntity2
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
@@ -60,7 +60,7 @@ class RepositoryTest {
             )
         )
         val favoriteBreedEntities = listOf(
-            FavoriteBreedEntity(
+            FavoriteBreedEntity2(
                 id = "1",
                 name = "Breed1",
                 origin = "Origin1",
@@ -129,7 +129,7 @@ class RepositoryTest {
             )
         )
         val favoriteBreedEntities = listOf(
-            FavoriteBreedEntity(
+            FavoriteBreedEntity2(
                 id = "1",
                 name = "Breed1",
                 origin = "Origin1",
@@ -183,7 +183,7 @@ class RepositoryTest {
             imageUrl = "ImageUrl1",
             lifeSpan = 12
         )
-        val favoriteBreedEntity = FavoriteBreedEntity(
+        val favoriteBreedEntity2 = FavoriteBreedEntity2(
             id = "1",
             name = "Breed1",
             origin = "Origin1",
@@ -195,7 +195,7 @@ class RepositoryTest {
 
         repository.addFavoriteBreed(catBreed)
 
-        Mockito.verify(storageHelper).addFavoriteBreed(favoriteBreedEntity)
+        Mockito.verify(storageHelper).addFavoriteBreed(favoriteBreedEntity2)
     }
 
     // removeFavoriteBreed
@@ -211,7 +211,7 @@ class RepositoryTest {
             imageUrl = "ImageUrl1",
             lifeSpan = 12
         )
-        val favoriteBreedEntity = FavoriteBreedEntity(
+        val favoriteBreedEntity2 = FavoriteBreedEntity2(
             id = "1",
             name = "Breed1",
             origin = "Origin1",
@@ -223,6 +223,6 @@ class RepositoryTest {
 
         repository.removeFavoriteBreed(catBreed)
 
-        Mockito.verify(storageHelper).removeFavoriteBreed(favoriteBreedEntity)
+        Mockito.verify(storageHelper).removeFavoriteBreed(favoriteBreedEntity2)
     }
 }

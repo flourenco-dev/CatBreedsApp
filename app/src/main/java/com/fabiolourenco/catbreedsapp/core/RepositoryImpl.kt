@@ -4,6 +4,7 @@ import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
 import com.fabiolourenco.catbreedsapp.core.network.ApiHelper
 import com.fabiolourenco.catbreedsapp.core.network.model.BreedModel
 import com.fabiolourenco.catbreedsapp.core.storage.StorageHelper
+import com.fabiolourenco.catbreedsapp.core.storage.database.entity.BreedEntity
 import com.fabiolourenco.catbreedsapp.core.storage.database.entity.FavoriteBreedEntity
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -38,6 +39,78 @@ internal class RepositoryImpl @Inject constructor(
     private fun String?.extractMaxLifeSpanValue(): Int? =
         this?.split("-")?.lastOrNull()?.trim()?.toIntOrNull()
 
+    override fun getBreedsObservable(): Flow<List<CatBreed>> =
+        storageHelper.getAllBreedsObservable().map {
+            it.toCatBreeds()
+        }
+
+    private fun List<BreedEntity>.toCatBreeds(): List<CatBreed> = map {
+        it.toCatBreed()
+    }
+
+    private fun BreedEntity.toCatBreed(): CatBreed = CatBreed(
+        id = id,
+        name = name,
+        origin = origin,
+        temperament = temperament,
+        description = description,
+        imageUrl = imageUrl,
+        lifeSpan = lifeSpan,
+        isFavorite = isFavorite
+    )
+
+    override suspend fun fetchBreeds() {
+        // Get all remote breeds
+        val remoteBreeds = apiHelper.getBreeds().map {
+            it.toBreedEntity(
+                isFavorite = storageHelper.isFavoriteBreed(it.id)
+            )
+        }
+        // Update database with the latest breeds
+        storageHelper.addBreeds(breeds = remoteBreeds)
+        // Apply delete logic to ensure that local and remote breeds match
+        val breedsToDelete = storageHelper.getAllBreeds().filter { localBreed ->
+            localBreed.id !in remoteBreeds.map { it.id }
+        }
+        if (breedsToDelete.isNotEmpty()) {
+            storageHelper.removeBreeds(breedsToDelete)
+        }
+    }
+
+    private fun BreedModel.toBreedEntity(isFavorite: Boolean): BreedEntity = BreedEntity(
+        id = id,
+        name = name,
+        origin = origin,
+        temperament = temperament,
+        description = description,
+        imageUrl = image?.url,
+        lifeSpan = lifeSpan.extractMaxLifeSpanValue(),
+        isFavorite = isFavorite
+    )
+
+    override fun getBreedsByNameObservable(breedName: String): Flow<List<CatBreed>> =
+        storageHelper.getBreedsByNameObservable(name = breedName).map {
+            it.toCatBreeds()
+        }
+
+    override suspend fun fetchBreedsByName(breedName: String) {
+        // Get all remote breeds
+        val remoteBreeds = apiHelper.getBreedsByName(breedName).map {
+            it.toBreedEntity(
+                isFavorite = storageHelper.isFavoriteBreed(it.id)
+            )
+        }
+        // Update database with the latest breeds
+        storageHelper.addBreeds(breeds = remoteBreeds)
+        // Apply delete logic to ensure that local and remote breeds match
+        val breedsToDelete = storageHelper.getBreedsByName(name = breedName).filter { localBreed ->
+            localBreed.id !in remoteBreeds.map { it.id }
+        }
+        if (breedsToDelete.isNotEmpty()) {
+            storageHelper.removeBreeds(breedsToDelete)
+        }
+    }
+
     override suspend fun searchBreedsByName(breedName: String): List<CatBreed> {
         val breedModels = apiHelper.getBreedsByName(breedName)
         val favoriteBreeds = storageHelper.getAllFavoriteBreeds()
@@ -49,31 +122,11 @@ internal class RepositoryImpl @Inject constructor(
     }
 
     override suspend fun addFavoriteBreed(breed: CatBreed) {
+        storageHelper.updateBreed(breed.toBreedEntity(isFavorite = true))
         storageHelper.addFavoriteBreed(breed.toFavoriteBreedEntity())
     }
 
-    private fun CatBreed.toFavoriteBreedEntity(): FavoriteBreedEntity = FavoriteBreedEntity(
-        id = id,
-        name = name,
-        origin = origin,
-        temperament = temperament,
-        description = description,
-        imageUrl = imageUrl,
-        lifeSpan = lifeSpan
-    )
-
-    override suspend fun removeFavoriteBreed(breed: CatBreed) {
-        storageHelper.removeFavoriteBreed(breed.toFavoriteBreedEntity())
-    }
-
-    override fun getFavoriteBreeds(): Flow<List<CatBreed>> =
-        storageHelper.getAllFavoriteBreedsObservable().map { favoriteBreedsList ->
-            favoriteBreedsList.map { favoriteBreed ->
-                favoriteBreed.toCatBreed()
-            }
-        }
-
-    private fun FavoriteBreedEntity.toCatBreed(): CatBreed = CatBreed(
+    private fun CatBreed.toBreedEntity(isFavorite: Boolean): BreedEntity = BreedEntity(
         id = id,
         name = name,
         origin = origin,
@@ -81,12 +134,24 @@ internal class RepositoryImpl @Inject constructor(
         description = description,
         imageUrl = imageUrl,
         lifeSpan = lifeSpan,
-        isFavorite = true
+        isFavorite = isFavorite
     )
 
-    override suspend fun getBreedById(breedsId: String): CatBreed =
-        apiHelper.getBreedsById(breedsId)
-            .toCatBreed(
-                isFavorite = storageHelper.isFavoriteBreed(breedsId)
-            )
+    private fun CatBreed.toFavoriteBreedEntity(): FavoriteBreedEntity = FavoriteBreedEntity(
+        id = id
+    )
+
+    override suspend fun removeFavoriteBreed(breed: CatBreed) {
+        storageHelper.updateBreed(breed.toBreedEntity(isFavorite = false))
+        storageHelper.removeFavoriteBreed(breed.toFavoriteBreedEntity())
+    }
+
+    override fun getFavoriteBreedsObservable(): Flow<List<CatBreed>> =
+        storageHelper.getAllFavoriteBreedsObservable().map { favoriteBreedsList ->
+            val favoriteIds = favoriteBreedsList.map { it.id }
+            storageHelper.getBreedsByIds(favoriteIds).toCatBreeds()
+        }
+
+    override suspend fun getBreedById(breedId: String): CatBreed =
+        storageHelper.getBreedById(breedId).toCatBreed()
 }

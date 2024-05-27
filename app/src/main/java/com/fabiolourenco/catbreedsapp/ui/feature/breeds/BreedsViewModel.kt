@@ -7,7 +7,9 @@ import com.fabiolourenco.catbreedsapp.core.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -16,49 +18,63 @@ class BreedsViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val getBreedsResultFlow = MutableStateFlow<GetBreedsResult>(GetBreedsResult.Initial)
-    val getBreedsResultObservable: StateFlow<GetBreedsResult> = getBreedsResultFlow
+    private val breedsFlow = repository.getBreedsObservable()
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Lazily,
+            emptyList()
+        )
+    val breedsObservable: StateFlow<List<CatBreed>> = breedsFlow
 
-    private val allBreedsFlow = MutableStateFlow<List<CatBreed>>(emptyList())
+    private val fetchBreedsResultFlow = MutableStateFlow<FetchBreedsResult>(
+        FetchBreedsResult.Initial
+    )
+    val fetchBreedsResultObservable: StateFlow<FetchBreedsResult> = fetchBreedsResultFlow
+
+    private val breedsByNameFlow = MutableStateFlow<List<CatBreed>>(emptyList())
+    val breedsByNameObservable: StateFlow<List<CatBreed>> = breedsByNameFlow
+
+    private val fetchBreedsByNameResultFlow = MutableStateFlow<FetchBreedsByNameResult>(
+        FetchBreedsByNameResult.Initial
+    )
+    val fetchBreedsByNameResultObservable: StateFlow<FetchBreedsByNameResult> =
+        fetchBreedsByNameResultFlow
 
     fun fetchBreeds() {
+        fetchBreedsResultFlow.value = FetchBreedsResult.Loading
         viewModelScope.launch {
-            getBreedsResultFlow.value = GetBreedsResult.Loading
             try {
-                val breeds = repository.getBreeds()
-                allBreedsFlow.value = breeds
-                if (breeds.isEmpty()) {
-                    getBreedsResultFlow.value = GetBreedsResult.Empty
-                } else {
-                    getBreedsResultFlow.value = GetBreedsResult.Success(breeds)
-                }
+                repository.fetchBreeds()
+                fetchBreedsResultFlow.value = FetchBreedsResult.Success
             } catch (error: Exception) {
                 Timber.e(error)
-                getBreedsResultFlow.value = GetBreedsResult.Error("Error while fetching breeds")
+                fetchBreedsResultFlow.value = FetchBreedsResult.Error
             }
         }
+    }
+
+    fun resetFetchBreedsResult() {
+        fetchBreedsResultFlow.value = FetchBreedsResult.Initial
     }
 
     fun searchBreeds(breedName: String) {
         viewModelScope.launch {
-            getBreedsResultFlow.value = GetBreedsResult.Loading
+            repository.getBreedsByNameObservable(breedName).collect {
+                breedsByNameFlow.value = it
+            }
+            fetchBreedsByNameResultFlow.value = FetchBreedsByNameResult.Loading
             try {
-                val breeds = repository.searchBreedsByName(breedName)
-                allBreedsFlow.value = breeds
-                if (breeds.isEmpty()) {
-                    getBreedsResultFlow.value = GetBreedsResult.EmptySearchResult(breedName)
-                } else {
-                    getBreedsResultFlow.value = GetBreedsResult.Success(breeds)
-                }
+                repository.fetchBreedsByName(breedName)
+                fetchBreedsByNameResultFlow.value = FetchBreedsByNameResult.Success
             } catch (error: Exception) {
                 Timber.e(error)
-                getBreedsResultFlow.value = GetBreedsResult.Error("Error while fetching breeds")
+                fetchBreedsByNameResultFlow.value = FetchBreedsByNameResult.Error(breedName)
             }
         }
     }
 
-    fun resetGetBreedsResult() {
-        getBreedsResultFlow.value = GetBreedsResult.Initial
+    fun resetFetchBreedsByNameResult() {
+        fetchBreedsByNameResultFlow.value = FetchBreedsByNameResult.Initial
     }
 
     fun updateFavoriteBreed(breed: CatBreed) {
@@ -69,9 +85,5 @@ class BreedsViewModel @Inject constructor(
                 repository.addFavoriteBreed(breed)
             }
         }
-    }
-
-    fun getBreedById(breedId: String): CatBreed? {
-        return allBreedsFlow.value.find { it.id == breedId }
     }
 }

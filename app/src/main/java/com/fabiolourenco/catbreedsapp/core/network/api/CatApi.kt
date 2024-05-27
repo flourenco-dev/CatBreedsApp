@@ -2,7 +2,6 @@ package com.fabiolourenco.catbreedsapp.core.network.api
 
 import com.fabiolourenco.catbreedsapp.core.network.model.BreedModel
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CatApi {
@@ -12,7 +11,4 @@ interface CatApi {
 
     @GET("breeds/search")
     suspend fun getBreedsByName(@Query("q") breedName: String): List<BreedModel>
-
-    @GET("breeds/{id}")
-    suspend fun getBreedById(@Path("id") id: String): BreedModel
 }

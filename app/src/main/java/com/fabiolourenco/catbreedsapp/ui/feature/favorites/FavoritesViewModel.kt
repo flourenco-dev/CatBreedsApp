@@ -16,7 +16,7 @@ class FavoritesViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val favoriteBreedsFlow = repository.getFavoriteBreeds()
+    private val favoriteBreedsFlow = repository.getFavoriteBreedsObservable()
         .stateIn(
             viewModelScope,
             SharingStarted.Lazily,
@@ -31,7 +31,4 @@ class FavoritesViewModel @Inject constructor(
     }
 
     fun getAverageLifeSpan(): Double = favoriteBreedsFlow.value.mapNotNull { it.lifeSpan }.average()
-
-    fun getBreedById(breedId: String): CatBreed? =
-        favoriteBreedsFlow.value.find { it.id == breedId }
 }

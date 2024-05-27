@@ -74,7 +74,7 @@ class BreedsViewModelTest {
         )
         given(repository.getBreeds()).willReturn(catBreeds)
 
-        viewModel.fetchBreeds()
+        viewModel.fetchBreedsOld()
 
         Mockito.verify(repository).getBreeds()
         val result = viewModel.getBreedsResultObservable.first()
@@ -90,7 +90,7 @@ class BreedsViewModelTest {
         val catBreeds = emptyList<CatBreed>()
         given(repository.getBreeds()).willReturn(catBreeds)
 
-        viewModel.fetchBreeds()
+        viewModel.fetchBreedsOld()
 
         Mockito.verify(repository).getBreeds()
         val result = viewModel.getBreedsResultObservable.first()
@@ -104,7 +104,7 @@ class BreedsViewModelTest {
     fun fetchBreeds3() = runTest {
         given(repository.getBreeds()).willThrow(MockitoException(""))
 
-        viewModel.fetchBreeds()
+        viewModel.fetchBreedsOld()
 
         Mockito.verify(repository).getBreeds()
         val result = viewModel.getBreedsResultObservable.first()
@@ -141,7 +141,7 @@ class BreedsViewModelTest {
         )
         given(repository.searchBreedsByName(breedName = query)).willReturn(catBreeds)
 
-        viewModel.searchBreeds(query)
+        viewModel.searchBreedsOld(query)
 
         Mockito.verify(repository).searchBreedsByName(breedName = query)
         val result = viewModel.getBreedsResultObservable.first()
@@ -158,7 +158,7 @@ class BreedsViewModelTest {
         val catBreeds = emptyList<CatBreed>()
         given(repository.searchBreedsByName(breedName = query)).willReturn(catBreeds)
 
-        viewModel.searchBreeds(query)
+        viewModel.searchBreedsOld(query)
 
         Mockito.verify(repository).searchBreedsByName(breedName = query)
         val result = viewModel.getBreedsResultObservable.first()
@@ -174,7 +174,7 @@ class BreedsViewModelTest {
         val query = "Breed"
         given(repository.searchBreedsByName(breedName = query)).willThrow(MockitoException(""))
 
-        viewModel.searchBreeds(query)
+        viewModel.searchBreedsOld(query)
 
         Mockito.verify(repository).searchBreedsByName(breedName = query)
         val result = viewModel.getBreedsResultObservable.first()

@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,15 +24,12 @@ import com.fabiolourenco.catbreedsapp.ui.feature.breeds.Breeds
 import com.fabiolourenco.catbreedsapp.ui.feature.breeds.BreedsViewModel
 import com.fabiolourenco.catbreedsapp.ui.feature.details.BreedDetails
 import com.fabiolourenco.catbreedsapp.ui.feature.favorites.Favorites
-import com.fabiolourenco.catbreedsapp.ui.feature.favorites.FavoritesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
-    breedsViewModel: BreedsViewModel = hiltViewModel(),
-    favoritesViewModel: FavoritesViewModel = hiltViewModel()
+    navController: NavHostController = rememberNavController()
 ) {
     Scaffold(
         topBar = {
@@ -90,6 +88,12 @@ fun NavGraph(
             modifier = modifier.padding(innerPadding)
         ) {
             composable(route = Route.Breeds.route) {
+                val breedsViewModel: BreedsViewModel = hiltViewModel()
+                LaunchedEffect(Unit) {
+                    breedsViewModel.resetFetchBreedsResult()
+                    breedsViewModel.resetFetchBreedsByNameResult()
+                    breedsViewModel.fetchBreeds()
+                }
                 Breeds(
                     viewModel = breedsViewModel,
                     goToBreedsDetails = { breed ->
@@ -99,7 +103,6 @@ fun NavGraph(
             }
             composable(route = Route.Favorites.route) {
                 Favorites(
-                    viewModel = favoritesViewModel,
                     goToBreedsDetails = { breed ->
                         navController.navigate(Route.Details.createRoute(breed.id))
                     }
@@ -111,7 +114,8 @@ fun NavGraph(
             ) { backStackEntry ->
                 val breedId = backStackEntry.arguments?.getString("breedId")
                 if (breedId != null) {
-                    // In here another solution would be to get the cached Cat Breed
+                    // In here another solution would be to get the remote Cat Breed, but image does
+                    // not come in this particular request response
                     BreedDetails(
                         breedId = breedId
                     ) {
