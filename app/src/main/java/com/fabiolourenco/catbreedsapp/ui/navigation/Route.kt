@@ -18,4 +18,11 @@ sealed class Route(
         titleId = R.string.route_favorites_title,
         labelId = R.string.route_favorites_label
     )
+    data object Details : Route(
+        route = "details/{breedId}",
+        titleId = -1,
+        labelId = -1
+    ) {
+        fun createRoute(breedId: String) = "details/$breedId"
+    }
 }

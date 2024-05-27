@@ -13,18 +13,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.fabiolourenco.catbreedsapp.ui.feature.breeds.Breeds
+import com.fabiolourenco.catbreedsapp.ui.feature.breeds.BreedsViewModel
+import com.fabiolourenco.catbreedsapp.ui.feature.details.BreedDetails
 import com.fabiolourenco.catbreedsapp.ui.feature.favorites.Favorites
+import com.fabiolourenco.catbreedsapp.ui.feature.favorites.FavoritesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    breedsViewModel: BreedsViewModel = hiltViewModel(),
+    favoritesViewModel: FavoritesViewModel = hiltViewModel()
 ) {
     Scaffold(
         topBar = {
@@ -43,34 +50,36 @@ fun NavGraph(
             }
         },
         bottomBar = {
+            val navBackStackEntry = navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry.value?.destination?.route
             val items = listOf(
                 Route.Breeds,
                 Route.Favorites
             )
-            NavigationBar {
-                val navBackStackEntry = navController.currentBackStackEntryAsState()
-                val currentRoute = navBackStackEntry.value?.destination?.route
-                items.forEach { item ->
-                    NavigationBarItem(
-                        selected = currentRoute == item.route,
-                        onClick = {
-                            navController.navigate(item.route) {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
+            if (currentRoute != Route.Details.route) {
+                NavigationBar {
+                    items.forEach { item ->
+                        NavigationBarItem(
+                            selected = currentRoute == item.route,
+                            onClick = {
+                                navController.navigate(item.route) {
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        label = {
-                            Text(
-                                text = stringResource(id = item.labelId).uppercase()
-                            )
-                        },
-                        icon = {},
-                        alwaysShowLabel = true,
-                        modifier = Modifier.navigationBarsPadding()
-                    )
+                            },
+                            label = {
+                                Text(
+                                    text = stringResource(id = item.labelId).uppercase()
+                                )
+                            },
+                            icon = {},
+                            alwaysShowLabel = true,
+                            modifier = Modifier.navigationBarsPadding()
+                        )
+                    }
                 }
             }
         }
@@ -82,17 +91,35 @@ fun NavGraph(
         ) {
             composable(route = Route.Breeds.route) {
                 Breeds(
-                    viewModel = hiltViewModel(),
+                    viewModel = breedsViewModel,
                     goToBreedsDetails = { breed ->
+                        navController.navigate(Route.Details.createRoute(breed.id))
                     }
                 )
             }
             composable(route = Route.Favorites.route) {
                 Favorites(
-                    viewModel = hiltViewModel(),
+                    viewModel = favoritesViewModel,
                     goToBreedsDetails = { breed ->
+                        navController.navigate(Route.Details.createRoute(breed.id))
                     }
                 )
+            }
+            composable(
+                route = Route.Details.route,
+                arguments = listOf(navArgument("breedId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val breedId = backStackEntry.arguments?.getString("breedId")
+                if (breedId != null) {
+                    // In here another solution would be to get the cached Cat Breed
+                    BreedDetails(
+                        breedId = breedId
+                    ) {
+                        navController.popBackStack()
+                    }
+                } else {
+                    return@composable
+                }
             }
         }
     }

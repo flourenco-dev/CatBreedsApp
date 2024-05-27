@@ -2,7 +2,9 @@ package com.fabiolourenco.catbreedsapp.common.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,14 +26,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberAsyncImagePainter
 import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
 
 @Composable
 fun BreedCard(
     breed: CatBreed,
-    onFavoriteClick: (CatBreed) -> Unit
+    onFavoriteClick: (CatBreed) -> Unit,
+    onClick: (CatBreed) -> Unit
 ) {
     val isBreedFavorite = remember { mutableStateOf(breed.isFavorite) }
     Box(
@@ -39,6 +41,9 @@ fun BreedCard(
             .padding(8.dp)
             .aspectRatio(1f)
             .clip(RoundedCornerShape(8.dp))
+            .clickable {
+                onClick(breed)
+            }
     ) {
         Image(
             painter = rememberAsyncImagePainter(breed.imageUrl),
@@ -46,53 +51,48 @@ fun BreedCard(
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
-        ConstraintLayout(
-            modifier = Modifier.fillMaxSize()
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Black.copy(alpha = 0.5f))
+                .align(Alignment.BottomCenter)
         ) {
-            val (name, favoriteButton) = createRefs()
-            Box(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(
-                        Color.Black.copy(alpha = 0.5f)
-                    )
-                    .constrainAs(name) {
-                        bottom.linkTo(parent.bottom)
-                    }
+                    .padding(4.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = breed.name,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleSmall,
                     color = Color.White,
                     modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(8.dp)
+                        .weight(1f)
+                        .padding(start = 4.dp)
                 )
-            }
-            IconButton(
-                modifier = Modifier.constrainAs(favoriteButton) {
-                    top.linkTo(parent.top, 2.dp)
-                    end.linkTo(parent.end, 2.dp)
-                },
-                onClick = {
-                    onFavoriteClick(
-                        breed.copy(isFavorite = isBreedFavorite.value)
-                    )
-                    isBreedFavorite.value = !isBreedFavorite.value
-                }
-            ) {
-                Icon(
-                    imageVector = if (isBreedFavorite.value) {
-                        Icons.Default.Favorite
-                    } else {
-                        Icons.Default.FavoriteBorder
-                    },
-                    contentDescription = if (isBreedFavorite.value) {
-                        "Unfavorite button"
-                    } else {
-                        "Favorite button"
+                IconButton(
+                    onClick = {
+                        onFavoriteClick(
+                            breed.copy(isFavorite = isBreedFavorite.value)
+                        )
+                        isBreedFavorite.value = !isBreedFavorite.value
                     }
-                )
+                ) {
+                    Icon(
+                        imageVector = if (isBreedFavorite.value) {
+                            Icons.Default.Favorite
+                        } else {
+                            Icons.Default.FavoriteBorder
+                        },
+                        contentDescription = if (isBreedFavorite.value) {
+                            "Unfavorite button"
+                        } else {
+                            "Favorite button"
+                        },
+                        tint = Color.White
+                    )
+                }
             }
         }
     }

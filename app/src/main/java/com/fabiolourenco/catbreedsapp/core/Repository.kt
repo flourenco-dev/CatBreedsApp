@@ -9,4 +9,5 @@ interface Repository {
     suspend fun addFavoriteBreed(breed: CatBreed)
     suspend fun removeFavoriteBreed(breed: CatBreed)
     fun getFavoriteBreeds(): Flow<List<CatBreed>>
+    suspend fun getBreedById(breedsId: String): CatBreed
 }

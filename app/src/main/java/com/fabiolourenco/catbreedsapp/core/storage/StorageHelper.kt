@@ -10,4 +10,5 @@ interface StorageHelper {
     fun getAllFavoriteBreedsObservable(): Flow<List<FavoriteBreedEntity>>
     suspend fun addFavoriteBreed(breed: FavoriteBreedEntity)
     suspend fun removeFavoriteBreed(breed: FavoriteBreedEntity)
+    suspend fun isFavoriteBreed(breedId: String): Boolean
 }

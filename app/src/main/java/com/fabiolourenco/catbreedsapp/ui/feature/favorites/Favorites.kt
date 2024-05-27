@@ -53,6 +53,9 @@ fun Favorites(
                 breeds = favoriteBreeds.value,
                 onFavoriteClick = {
                     viewModel.removeFavoriteBreed(breed = it)
+                },
+                onItemClick = {
+                    goToBreedsDetails(it)
                 }
             )
         }

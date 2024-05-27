@@ -20,4 +20,7 @@ internal class StorageHelperImpl @Inject constructor(
 
     override suspend fun removeFavoriteBreed(breed: FavoriteBreedEntity) =
         favoriteBreedsDao.deleteFavoriteBreed(breed)
+
+    override suspend fun isFavoriteBreed(breedId: String): Boolean =
+        favoriteBreedsDao.exists(id = breedId)
 }

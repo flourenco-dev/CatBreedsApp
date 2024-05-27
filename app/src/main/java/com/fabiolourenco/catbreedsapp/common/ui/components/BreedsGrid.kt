@@ -11,7 +11,8 @@ import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
 @Composable
 fun BreedsGrid(
     breeds: List<CatBreed>,
-    onFavoriteClick: (CatBreed) -> Unit
+    onFavoriteClick: (CatBreed) -> Unit,
+    onItemClick: (CatBreed) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
@@ -22,6 +23,9 @@ fun BreedsGrid(
                 breed = breed,
                 onFavoriteClick = {
                     onFavoriteClick(it)
+                },
+                onClick = {
+                    onItemClick(it)
                 }
             )
         }

@@ -72,6 +72,9 @@ fun Breeds(
                     breeds = breedsResult.breeds,
                     onFavoriteClick = {
                         viewModel.updateFavoriteBreed(breed = it)
+                    },
+                    onItemClick = {
+                        goToBreedsDetails(it)
                     }
                 )
             }

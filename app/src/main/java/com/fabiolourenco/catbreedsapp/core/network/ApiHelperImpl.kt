@@ -12,4 +12,7 @@ internal class ApiHelperImpl @Inject constructor(
 
     override suspend fun getBreedsByName(breedName: String): List<BreedModel> =
         catApi.getBreedsByName(breedName)
+
+    override suspend fun getBreedsById(breedId: String): BreedModel =
+        catApi.getBreedById(id = breedId)
 }

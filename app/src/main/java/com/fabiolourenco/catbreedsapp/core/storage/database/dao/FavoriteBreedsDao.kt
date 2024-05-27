@@ -21,4 +21,7 @@ interface FavoriteBreedsDao {
 
     @Delete
     suspend fun deleteFavoriteBreed(breed: FavoriteBreedEntity)
+
+    @Query("SELECT EXISTS(SELECT 1 FROM FavoriteBreedEntity WHERE id = :id)")
+    suspend fun exists(id: String): Boolean
 }

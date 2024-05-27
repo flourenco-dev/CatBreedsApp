@@ -19,11 +19,14 @@ class BreedsViewModel @Inject constructor(
     private val getBreedsResultFlow = MutableStateFlow<GetBreedsResult>(GetBreedsResult.Initial)
     val getBreedsResultObservable: StateFlow<GetBreedsResult> = getBreedsResultFlow
 
+    private val allBreedsFlow = MutableStateFlow<List<CatBreed>>(emptyList())
+
     fun fetchBreeds() {
         viewModelScope.launch {
             getBreedsResultFlow.value = GetBreedsResult.Loading
             try {
                 val breeds = repository.getBreeds()
+                allBreedsFlow.value = breeds
                 if (breeds.isEmpty()) {
                     getBreedsResultFlow.value = GetBreedsResult.Empty
                 } else {
@@ -41,6 +44,7 @@ class BreedsViewModel @Inject constructor(
             getBreedsResultFlow.value = GetBreedsResult.Loading
             try {
                 val breeds = repository.searchBreedsByName(breedName)
+                allBreedsFlow.value = breeds
                 if (breeds.isEmpty()) {
                     getBreedsResultFlow.value = GetBreedsResult.EmptySearchResult(breedName)
                 } else {
@@ -65,5 +69,9 @@ class BreedsViewModel @Inject constructor(
                 repository.addFavoriteBreed(breed)
             }
         }
+    }
+
+    fun getBreedById(breedId: String): CatBreed? {
+        return allBreedsFlow.value.find { it.id == breedId }
     }
 }

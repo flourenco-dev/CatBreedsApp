@@ -83,4 +83,10 @@ internal class RepositoryImpl @Inject constructor(
         lifeSpan = lifeSpan,
         isFavorite = true
     )
+
+    override suspend fun getBreedById(breedsId: String): CatBreed =
+        apiHelper.getBreedsById(breedsId)
+            .toCatBreed(
+                isFavorite = storageHelper.isFavoriteBreed(breedsId)
+            )
 }
