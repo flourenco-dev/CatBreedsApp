@@ -48,7 +48,7 @@ In terms of structure app is divided in :common, :core and :ui modules to provid
 2. **E2E/Android tests**:
     - Run E2E tests using the following command, while a device/emulator is connected:
     ```bash
-    ./gradlew connectedDebugAndroidTest
+    ./gradlew app:connectedDebugAndroidTest
     ```
 
 3. **Lint validation**:

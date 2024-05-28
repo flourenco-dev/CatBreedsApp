@@ -5,8 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import com.fabiolourenco.catbreedsapp.ui.navigation.NavGraph
-import com.fabiolourenco.catbreedsapp.ui.theme.CatBreedsAppTheme
+import com.fabiolourenco.ui.navigation.NavGraph
+import com.fabiolourenco.ui.theme.CatBreedsAppTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 

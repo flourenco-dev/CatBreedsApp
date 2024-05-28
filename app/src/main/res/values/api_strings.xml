@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="api_key" translatable="false">live_rKMG5agKTREWa9mESRdMYFvX5l9FzNX7LnYDb5lyDFU9U1mkeczp3dt7TcTnaUjJ</string>
-    <string name="cat_api_base_url" translatable="false">https://api.thecatapi.com/v1/</string>
-</resources>
