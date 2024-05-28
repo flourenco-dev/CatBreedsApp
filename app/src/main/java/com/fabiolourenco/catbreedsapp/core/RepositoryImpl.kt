@@ -16,30 +16,6 @@ internal class RepositoryImpl @Inject constructor(
     private val storageHelper: StorageHelper
 ) : Repository {
 
-    override suspend fun getBreeds(): List<CatBreed> {
-        val breedModels = apiHelper.getBreeds()
-        val favoriteBreeds = storageHelper.getAllFavoriteBreeds()
-        return breedModels.map { breedModel ->
-            breedModel.toCatBreed(
-                isFavorite = favoriteBreeds.any { it.id == breedModel.id }
-            )
-        }
-    }
-
-    private fun BreedModel.toCatBreed(isFavorite: Boolean): CatBreed = CatBreed(
-        id = id,
-        name = name,
-        origin = origin,
-        temperament = temperament,
-        description = description,
-        imageUrl = image?.url,
-        lifeSpan = lifeSpan.extractMaxLifeSpanValue(),
-        isFavorite = isFavorite
-    )
-
-    private fun String?.extractMaxLifeSpanValue(): Int? =
-        this?.split("-")?.lastOrNull()?.trim()?.toIntOrNull()
-
     override fun getBreedsObservable(): Flow<List<CatBreed>> =
         storageHelper.getAllBreedsObservable().map {
             it.toCatBreeds()
@@ -92,6 +68,9 @@ internal class RepositoryImpl @Inject constructor(
         isFavorite = isFavorite
     )
 
+    private fun String?.extractMaxLifeSpanValue(): Int? =
+        this?.split("-")?.lastOrNull()?.trim()?.toIntOrNull()
+
     override fun getBreedsByNameObservable(breedName: String): Flow<List<CatBreed>> =
         storageHelper.getBreedsByNameObservable(name = breedName).map {
             it.toCatBreeds()
@@ -112,16 +91,6 @@ internal class RepositoryImpl @Inject constructor(
         }
         if (breedsToDelete.isNotEmpty()) {
             storageHelper.removeBreeds(breedsToDelete)
-        }
-    }
-
-    override suspend fun searchBreedsByName(breedName: String): List<CatBreed> {
-        val breedModels = apiHelper.getBreedsByName(breedName)
-        val favoriteBreeds = storageHelper.getAllFavoriteBreeds()
-        return breedModels.map { breedModel ->
-            breedModel.toCatBreed(
-                isFavorite = favoriteBreeds.any { it.id == breedModel.id }
-            )
         }
     }
 
@@ -160,11 +129,23 @@ internal class RepositoryImpl @Inject constructor(
         storageHelper.getBreedById(breedId).toCatBreed()
 
     override suspend fun getBreedsPage(page: Int, limit: Int): List<CatBreed> {
-        delay(5000)
+        // Delay just to allow testing of loadings
+        delay(3000)
         return apiHelper.getBreedsPage(page, limit).map {
             it.toCatBreed(
                 isFavorite = storageHelper.isFavoriteBreed(breedId = it.id)
             )
         }
     }
+
+    private fun BreedModel.toCatBreed(isFavorite: Boolean): CatBreed = CatBreed(
+        id = id,
+        name = name,
+        origin = origin,
+        temperament = temperament,
+        description = description,
+        imageUrl = image?.url,
+        lifeSpan = lifeSpan.extractMaxLifeSpanValue(),
+        isFavorite = isFavorite
+    )
 }

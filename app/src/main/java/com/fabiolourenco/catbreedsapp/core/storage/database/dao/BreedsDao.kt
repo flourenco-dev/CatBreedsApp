@@ -38,4 +38,7 @@ interface BreedsDao {
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun update(breed: BreedEntity)
+
+    @Query("DELETE FROM BreedEntity")
+    suspend fun clearAll()
 }

@@ -27,4 +27,10 @@
         </activity>
     </application>
 
+    <instrumentation
+        android:name="com.fabiolourenco.catbreedsapp.CatBreedsAppTestRunner"
+        android:targetPackage="com.fabiolourenco.catbreedsapp"
+        android:handleProfiling="true"
+        android:functionalTest="true" />
+
 </manifest>

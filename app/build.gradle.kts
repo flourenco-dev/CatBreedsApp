@@ -15,7 +15,7 @@ android {
         targetSdk = property("targetSdkVersion") as Int
         versionCode = property("versionCode") as Int
         versionName = property("versionName") as String
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.fabiolourenco.catbreedsapp.CatBreedsAppTestRunner"
     }
 
     buildTypes {
@@ -114,6 +114,17 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:${rootProject.ext["mockitoKotlinVersion"]}")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${rootProject.ext["kotlinTestJunitVersion"]}")
     testImplementation("androidx.arch.core:core-testing:${rootProject.ext["archCoreTestingVersion"]}")
+
+    // Android Tests
+    androidTestImplementation("androidx.test.ext:junit:${rootProject.ext["junitAndroidVersion"]}")
+    androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.ext["espressoVersion"]}")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:${rootProject.ext["espressoVersion"]}")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:${rootProject.ext["hiltTestingVersion"]}")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:${rootProject.ext["hiltTestingVersion"]}")
+    androidTestImplementation("androidx.paging:paging-common-ktx:${rootProject.ext["pagingTestVersion"]}")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${rootProject.ext["composeUiTestVersion"]}")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:${rootProject.ext["composeUiTestVersion"]}")
+    androidTestImplementation("com.google.accompanist:accompanist-testharness:${rootProject.ext["testHarnessVersion"]}")
 }
 
 kapt {

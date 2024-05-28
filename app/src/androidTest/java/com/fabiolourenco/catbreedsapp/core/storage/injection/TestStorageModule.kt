@@ -9,25 +9,23 @@ import com.fabiolourenco.catbreedsapp.core.storage.database.dao.BreedsDao
 import com.fabiolourenco.catbreedsapp.core.storage.database.dao.FavoriteBreedsDao
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-object StorageModule {
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [StorageModule::class]
+)
+object TestStorageModule {
 
-    @Provides
     @Singleton
+    @Provides
     fun provideCatBreedsDatabase(@ApplicationContext context: Context): CatBreedsDatabase =
-        Room
-            .databaseBuilder(
-                context,
-                CatBreedsDatabase::class.java,
-                "CatBreedsApp_db"
-            )
-            .fallbackToDestructiveMigration()
+        Room.inMemoryDatabaseBuilder(context, CatBreedsDatabase::class.java)
+            .allowMainThreadQueries()
             .build()
 
     @Provides

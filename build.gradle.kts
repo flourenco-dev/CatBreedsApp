@@ -39,6 +39,14 @@ buildscript {
         set("mockitoKotlinVersion", "5.0.0")
         set("kotlinTestJunitVersion", "1.9.10")
         set("archCoreTestingVersion", "2.2.0")
+
+        // Android Test dependencies
+        set("junitAndroidVersion", "1.1.5")
+        set("espressoVersion", "3.5.1")
+        set("hiltTestingVersion", "2.46.1")
+        set("pagingTestVersion", "3.3.0")
+        set("composeUiTestVersion", "1.6.7")
+        set("testHarnessVersion", "0.31.1-alpha")
     }
 
     repositories {
