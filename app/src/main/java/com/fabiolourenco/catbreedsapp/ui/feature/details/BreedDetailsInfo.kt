@@ -28,7 +28,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.rememberAsyncImagePainter
 import com.fabiolourenco.catbreedsapp.R
-import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
+import com.fabiolourenco.common.uiModel.CatBreed
 
 @Composable
 fun BreedDetailsInfo(

@@ -1,11 +1,11 @@
 package com.fabiolourenco.catbreedsapp.core
 
-import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
 import com.fabiolourenco.catbreedsapp.core.network.ApiHelper
 import com.fabiolourenco.catbreedsapp.core.network.model.BreedModel
 import com.fabiolourenco.catbreedsapp.core.storage.StorageHelper
 import com.fabiolourenco.catbreedsapp.core.storage.database.entity.BreedEntity
 import com.fabiolourenco.catbreedsapp.core.storage.database.entity.FavoriteBreedEntity
+import com.fabiolourenco.common.uiModel.CatBreed
 import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

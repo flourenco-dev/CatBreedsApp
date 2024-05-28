@@ -1,4 +1,4 @@
-package com.fabiolourenco.catbreedsapp.common.uiModel
+package com.fabiolourenco.common.uiModel
 
 data class CatBreed(
     val id: String,

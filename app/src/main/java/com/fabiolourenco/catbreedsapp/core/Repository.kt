@@ -1,6 +1,6 @@
 package com.fabiolourenco.catbreedsapp.core
 
-import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
+import com.fabiolourenco.common.uiModel.CatBreed
 import kotlinx.coroutines.flow.Flow
 
 interface Repository {

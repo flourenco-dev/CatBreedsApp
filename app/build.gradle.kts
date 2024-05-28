@@ -58,6 +58,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":common"))
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext["kotlinVersion"]}")
     implementation("androidx.core:core-ktx:${rootProject.ext["coreKtxVersion"]}")
     implementation("androidx.appcompat:appcompat:${rootProject.ext["appCompatVersion"]}")

@@ -1,4 +1,4 @@
-package com.fabiolourenco.catbreedsapp.common.ui.components
+package com.fabiolourenco.common.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
+import com.fabiolourenco.common.uiModel.CatBreed
 
 @Composable
 fun BreedCard(

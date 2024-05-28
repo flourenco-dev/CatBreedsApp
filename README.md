@@ -36,7 +36,7 @@ It provides example implementations of offline support, pagination, unit and E2E
 ## Architecture
 This application follows the MVVM architecture pattern, utilizing Jetpack libraries for a clean and maintainable codebase.
 Both storage and network implementations in the app are surrounded by a helper class to provide code abstraction, making the code easier to test and implementations easier to replace.
-In terms of structure app is divided in :core and :ui modules to provide separation of concerns.
+In terms of structure app is divided in :common, :core and :ui modules to provide separation of concerns.
 
 ## Testing
 1. **Unit tests**:
@@ -89,4 +89,5 @@ In terms of structure app is divided in :core and :ui modules to provide separat
 
 ## Additional notes
 - **Database Handling**: The app uses an in-memory database for testing to avoid conflicts with the database;
-- **API Key**: Author provided Cat API key for ease of use/test purpose but it is not the ideal solution. API key and API base URL are kept in a resources file to ensure that different environments are supported (i.e. Dev, Accept, Prod, etc).
+- **API Key**: Author provided Cat API key for ease of use/test purpose but it is not the ideal solution. API key and API base URL are kept in a resources file to ensure that different environments are supported (i.e. Dev, Accept, Prod, etc);
+- **Compose Preview**: An improvement for code development would be to add previews to all composable elements.

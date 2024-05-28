@@ -21,8 +21,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.fabiolourenco.catbreedsapp.R
-import com.fabiolourenco.catbreedsapp.common.ui.components.BreedCard
-import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
+import com.fabiolourenco.common.components.BreedCard
+import com.fabiolourenco.common.uiModel.CatBreed
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 

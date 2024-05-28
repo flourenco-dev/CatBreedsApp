@@ -15,8 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fabiolourenco.catbreedsapp.R
-import com.fabiolourenco.catbreedsapp.common.ui.components.BreedsGrid
-import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
+import com.fabiolourenco.common.components.BreedsGrid
+import com.fabiolourenco.common.uiModel.CatBreed
 
 @Composable
 fun Favorites(

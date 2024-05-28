@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("org.jmailen.kotlinter")
 }
 
 android {
@@ -51,5 +52,20 @@ android {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext["kotlinVersion"]}")
+    implementation("androidx.core:core-ktx:${rootProject.ext["coreKtxVersion"]}")
+    implementation("androidx.appcompat:appcompat:${rootProject.ext["appCompatVersion"]}")
 
+    // Lifecycle components
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${rootProject.ext["lifecycleVersion"]}")
+
+    // Jetpack Compose
+    implementation("androidx.activity:activity-compose:${rootProject.ext["activityComposeVersion"]}")
+    implementation("androidx.compose.ui:ui:${rootProject.ext["composeVersion"]}")
+    implementation("androidx.compose.material3:material3:${rootProject.extra["material3Version"]}")
+    implementation("androidx.compose.ui:ui-tooling-preview:${rootProject.ext["composeVersion"]}")
+    implementation("androidx.constraintlayout:constraintlayout-compose:${rootProject.ext["constraintLayoutVersion"]}")
+
+    // Image Loading
+    implementation("io.coil-kt:coil-compose:${rootProject.ext["koilVersion"]}")
 }

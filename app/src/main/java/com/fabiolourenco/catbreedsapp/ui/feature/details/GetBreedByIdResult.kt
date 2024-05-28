@@ -1,6 +1,6 @@
 package com.fabiolourenco.catbreedsapp.ui.feature.details
 
-import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
+import com.fabiolourenco.common.uiModel.CatBreed
 
 sealed class GetBreedByIdResult {
     data object Initial : GetBreedByIdResult()
