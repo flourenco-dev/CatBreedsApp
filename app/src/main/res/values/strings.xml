@@ -16,4 +16,5 @@
     <string name="favorites_life_span_text">The average life span of your favorites breeds is %1$s years!</string>
     <string name="paging_breeds_initial_error_message">There was an error while loading the initial set of breeds!</string>
     <string name="paging_breeds_page_error_message">There was an error while loading the next set of breeds!</string>
+    <string name="details_close_button">Close</string>
 </resources>

@@ -96,7 +96,7 @@ class FavoritesTest {
 
         composeTestRule.onNodeWithContentDescription("Unfavorite button").performClick()
 
-        composeTestRule.onNodeWithText("Close").performClick()
+        composeTestRule.onNodeWithText("CLOSE").performClick()
 
         composeTestRule.onNodeWithText(favoriteBreedName).assertDoesNotExist()
     }

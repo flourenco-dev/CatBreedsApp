@@ -4,14 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -35,8 +33,7 @@ import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
 @Composable
 fun BreedDetailsInfo(
     breed: CatBreed,
-    onFavoriteClick: (CatBreed) -> Unit = {},
-    onCloseClick: () -> Unit = {}
+    onFavoriteClick: (CatBreed) -> Unit = {}
 ) {
     val isBreedFavorite = remember { mutableStateOf(breed.isFavorite) }
     Box(
@@ -47,7 +44,7 @@ fun BreedDetailsInfo(
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
         ) {
             val (
                 image,
@@ -55,8 +52,7 @@ fun BreedDetailsInfo(
                 favoriteButton,
                 origin,
                 temperament,
-                description,
-                closeButton
+                description
             ) = createRefs()
             Image(
                 painter = rememberAsyncImagePainter(breed.imageUrl),
@@ -144,19 +140,6 @@ fun BreedDetailsInfo(
                     }
                     .padding(horizontal = 8.dp)
             )
-            Button(
-                onClick = onCloseClick,
-                modifier = Modifier
-                    .constrainAs(closeButton) {
-                        top.linkTo(description.bottom, 16.dp)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                    }
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp)
-            ) {
-                Text(text = "Close")
-            }
         }
     }
 }
