@@ -63,25 +63,25 @@ In terms of structure app is divided in :core and :ui modules to provide separat
 
 ## Result
 
-**Breeds List:**
+**Breeds page:**
 
 | Dark Theme | Light Theme |
 |------------|-------------|
 | ![Breeds Dark](screenshots/breeds_dark.png) | ![Breeds Light](screenshots/breeds_light.png) |
 
-**Details Screen:**
+**Details page:**
 
 | Dark Theme | Light Theme |
 |------------|-------------|
 | ![Details Dark](screenshots/details_dark.png) | ![Details Light](screenshots/details_light.png) |
 
-**Favorites List:**
+**Favorites page:**
 
 | Dark Theme | Light Theme |
 |------------|-------------|
 | ![Favorites Dark](screenshots/favorites_dark.png) | ![Favorites Light](screenshots/favorites_light.png) |
 
-**Paginated List:**
+**Paginated Breeds page:**
 
 | Dark Theme | Light Theme |
 |------------|-------------|

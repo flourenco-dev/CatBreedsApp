@@ -10,6 +10,15 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core-network" />
+            <option value="$PROJECT_DIR$/core-storage" />
+            <option value="$PROJECT_DIR$/ui" />
+            <option value="$PROJECT_DIR$/ui-feature-breeds" />
+            <option value="$PROJECT_DIR$/ui-feature-details" />
+            <option value="$PROJECT_DIR$/ui-feature-favorites" />
+            <option value="$PROJECT_DIR$/ui-feature-paginatedBreeds" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

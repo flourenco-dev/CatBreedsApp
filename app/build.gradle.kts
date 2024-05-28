@@ -7,8 +7,8 @@ plugins {
 }
 
 android {
-    compileSdk = rootProject.ext["compileSdkVersion"] as Int
     namespace = "com.fabiolourenco.catbreedsapp"
+    compileSdk = rootProject.ext["compileSdkVersion"] as Int
     defaultConfig {
         applicationId = "com.fabiolourenco.catbreedsapp"
         minSdk = property("minSdkVersion") as Int
@@ -23,7 +23,7 @@ android {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "../proguard-rules.pro"
             )
         }
         debug {
