@@ -1,10 +1,13 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+    id("org.jmailen.kotlinter")
 }
 
 android {
-    namespace = "com.fabiolourenco.core_network"
+    namespace = "com.fabiolourenco.corenetwork"
     compileSdk = rootProject.ext["compileSdkVersion"] as Int
 
     defaultConfig {
@@ -44,5 +47,26 @@ android {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext["kotlinVersion"]}")
+    implementation("androidx.core:core-ktx:${rootProject.ext["coreKtxVersion"]}")
 
+    // Lifecycle components
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${rootProject.ext["lifecycleVersion"]}")
+
+    // Logging
+    implementation("com.jakewharton.timber:timber:${rootProject.ext["timberVersion"]}")
+
+    // Network
+    implementation("com.squareup.retrofit2:retrofit:${rootProject.ext["retrofitVersion"]}")
+    implementation("com.squareup.retrofit2:converter-gson:${rootProject.ext["retrofitVersion"]}")
+    implementation("com.squareup.okhttp3:logging-interceptor:${rootProject.ext["loggingInterceptorVersion"]}")
+
+    // Dependency Injection
+    implementation("com.google.dagger:hilt-android:${rootProject.ext["hiltVersion"]}")
+    kapt("com.google.dagger:hilt-android-compiler:${rootProject.ext["hiltVersion"]}")
+    implementation("androidx.hilt:hilt-navigation-compose:${rootProject.ext["hiltNavigationComposeVersion"]}")
+}
+
+kapt {
+    correctErrorTypes = true
 }

@@ -1,8 +1,8 @@
 package com.fabiolourenco.catbreedsapp.ui.feature.favorites
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.fabiolourenco.catbreedsapp.core.Repository
 import com.fabiolourenco.common.uiModel.CatBreed
+import com.fabiolourenco.core.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher

@@ -6,8 +6,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.fabiolourenco.catbreedsapp.core.Repository
 import com.fabiolourenco.common.uiModel.CatBreed
+import com.fabiolourenco.core.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow

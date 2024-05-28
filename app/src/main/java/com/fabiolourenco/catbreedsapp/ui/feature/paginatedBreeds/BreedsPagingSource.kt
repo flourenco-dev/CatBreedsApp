@@ -2,8 +2,8 @@ package com.fabiolourenco.catbreedsapp.ui.feature.paginatedBreeds
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.fabiolourenco.catbreedsapp.core.Repository
 import com.fabiolourenco.common.uiModel.CatBreed
+import com.fabiolourenco.core.Repository
 
 class BreedsPagingSource(
     private val repository: Repository,

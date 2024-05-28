@@ -59,6 +59,14 @@ android {
 
 dependencies {
     implementation(project(":common"))
+    implementation(project(":core"))
+    implementation(project(":core-network"))
+    implementation(project(":core-storage"))
+    implementation(project(":ui"))
+    implementation(project(":ui-feature-breeds"))
+    implementation(project(":ui-feature-details"))
+    implementation(project(":ui-feature-favorites"))
+    implementation(project(":ui-feature-paginatedBreeds"))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext["kotlinVersion"]}")
     implementation("androidx.core:core-ktx:${rootProject.ext["coreKtxVersion"]}")

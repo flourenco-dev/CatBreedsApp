@@ -4,11 +4,11 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.fabiolourenco.catbreedsapp.core.storage.database.dao.BreedsDao
-import com.fabiolourenco.catbreedsapp.core.storage.database.dao.FavoriteBreedsDao
-import com.fabiolourenco.catbreedsapp.core.storage.database.entity.BreedEntity
-import com.fabiolourenco.catbreedsapp.core.storage.database.entity.FavoriteBreedEntity
 import com.fabiolourenco.catbreedsapp.ui.CatBreedsActivity
+import com.fabiolourenco.corestorage.database.dao.BreedsDao
+import com.fabiolourenco.corestorage.database.dao.FavoriteBreedsDao
+import com.fabiolourenco.corestorage.database.entity.BreedEntity
+import com.fabiolourenco.corestorage.database.entity.FavoriteBreedEntity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import javax.inject.Inject

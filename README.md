@@ -14,7 +14,7 @@ It provides example implementations of offline support, pagination, unit and E2E
 - Offline support with Room database (based on using database as single source of truth);
 - Jetpack Compose for UI;
 - Navigation Compose component to navigate between screens;
-- Pagination for the list of cat breeds (PoC);
+- Pagination for the list of cat breeds (PoC and left delay to test loading);
 - Unit tests to validate logic;
 - E2E tests to proper functionality between screens (PoC);
 - Error handling (not very extensive);
@@ -90,4 +90,5 @@ In terms of structure app is divided in :common, :core and :ui modules to provid
 ## Additional notes
 - **Database Handling**: The app uses an in-memory database for testing to avoid conflicts with the database;
 - **API Key**: Author provided Cat API key for ease of use/test purpose but it is not the ideal solution. API key and API base URL are kept in a resources file to ensure that different environments are supported (i.e. Dev, Accept, Prod, etc);
-- **Compose Preview**: An improvement for code development would be to add previews to all composable elements.
+- **Compose Preview**: An improvement for code development would be to add previews to all composable elements;
+- **Modular Structure**: Module package are all missing by mistake the .catbreedsapp folder.

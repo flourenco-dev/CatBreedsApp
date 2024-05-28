@@ -2,8 +2,8 @@ package com.fabiolourenco.catbreedsapp.ui.feature.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fabiolourenco.catbreedsapp.core.Repository
 import com.fabiolourenco.common.uiModel.CatBreed
+import com.fabiolourenco.core.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
