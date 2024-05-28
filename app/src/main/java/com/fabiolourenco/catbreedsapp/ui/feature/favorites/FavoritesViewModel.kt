@@ -30,5 +30,6 @@ class FavoritesViewModel @Inject constructor(
         }
     }
 
-    fun getAverageLifeSpan(): Double = favoriteBreedsFlow.value.mapNotNull { it.lifeSpan }.average()
+    fun getAverageLifeSpan(favoriteBreeds: List<CatBreed>): Double =
+        favoriteBreeds.mapNotNull { it.lifeSpan }.average()
 }

@@ -5,19 +5,18 @@ import com.fabiolourenco.catbreedsapp.common.uiModel.CatBreed
 import com.fabiolourenco.catbreedsapp.core.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import org.mockito.kotlin.given
 import org.mockito.kotlin.never
 
 @ExperimentalCoroutinesApi
@@ -87,6 +86,9 @@ class FavoritesViewModelTest {
         Mockito.verify(repository, never()).addFavoriteBreed(breed = catBreed)
     }
 
+    // getAverageLifeSpan
+    // twoBreedsWith12And15LifeSpan
+    // 13.5IsReturned
     @Test
     fun getAverageLifeSpan1() = runTest {
         val catBreeds = listOf(
@@ -111,12 +113,9 @@ class FavoritesViewModelTest {
                 isFavorite = false
             )
         )
-        given(repository.getFavoriteBreedsObservable()).willReturn(flowOf(catBreeds))
 
-        val result = viewModel.getAverageLifeSpan()
+        val result = viewModel.getAverageLifeSpan(catBreeds)
 
-        Mockito.verify(repository).getFavoriteBreedsObservable()
-        // Cannot figure out how to make this test pass
-//        Assert.assertEquals(13.5f, result.toFloat())
+        Assert.assertEquals(13.5f, result.toFloat())
     }
 }

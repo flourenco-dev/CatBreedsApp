@@ -45,7 +45,7 @@ fun Favorites(
                 Text(
                     text = stringResource(
                         R.string.favorites_life_span_text,
-                        "%.1f".format(viewModel.getAverageLifeSpan())
+                        "%.1f".format(viewModel.getAverageLifeSpan(favoriteBreeds.value))
                     )
                 )
             }
