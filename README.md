@@ -91,4 +91,5 @@ In terms of structure app is divided in :common, :core and :ui modules to provid
 - **Database Handling**: The app uses an in-memory database for testing to avoid conflicts with the database;
 - **API Key**: Author provided Cat API key for ease of use/test purpose but it is not the ideal solution. API key and API base URL are kept in a resources file to ensure that different environments are supported (i.e. Dev, Accept, Prod, etc);
 - **Compose Preview**: An improvement for code development would be to add previews to all composable elements;
-- **Modular Structure**: Module package are all missing by mistake the .catbreedsapp folder.
+- **Modular Structure**: Module package are all missing by mistake the .catbreedsapp folder;
+- **E2E Tests**: A decision to keep all dependencies imported in the :app module was made to avoid missing configurations that could lead to unavailability to run E2E/Android tests.
