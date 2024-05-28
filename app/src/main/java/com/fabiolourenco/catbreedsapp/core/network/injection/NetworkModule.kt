@@ -1,12 +1,15 @@
 package com.fabiolourenco.catbreedsapp.core.network.injection
 
+import android.content.Context
 import com.fabiolourenco.catbreedsapp.BuildConfig
+import com.fabiolourenco.catbreedsapp.R
 import com.fabiolourenco.catbreedsapp.core.network.ApiHelper
 import com.fabiolourenco.catbreedsapp.core.network.ApiHelperImpl
 import com.fabiolourenco.catbreedsapp.core.network.api.CatApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
@@ -20,16 +23,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
+    fun provideRetrofit(@ApplicationContext context: Context): Retrofit {
         val client = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val original = chain.request()
                 val requestBuilder = original.newBuilder()
                     .header("Content-Type", "application/json")
-                    .header(
-                        "x-api-key",
-                        "live_rKMG5agKTREWa9mESRdMYFvX5l9FzNX7LnYDb5lyDFU9U1mkeczp3dt7TcTnaUjJ"
-                    )
+                    .header("x-api-key", context.getString(R.string.api_key))
                 val request = requestBuilder.build()
                 chain.proceed(request)
             }.also {
@@ -42,7 +42,7 @@ object NetworkModule {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl("https://api.thecatapi.com/v1/")
+            .baseUrl(context.getString(R.string.cat_api_base_url))
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
